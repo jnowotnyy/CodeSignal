@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Simple Form</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body style="background-color:#121212">
+		<header>
+			<div>
+				<button>
+					<a href="My%20Weekly%20Schedule.html" target="_self"><strong>My Schedule</strong></a>
+				</button>
+				<button>
+					<a href="MyForm.html" target="_self"><strong>Form Input</strong></a>
+				</button>
+				<button>
+					<a href="My%20Widgets.html" target="_self"><strong>My Widgets</strong></a>
+				</button>
+			</div>
+		</header>
+		<form method="post" action="https://www-users.cselabs.umn.edu/~joh13266/echo.php">
+			<h1>Form Input</h1>
+			<p>
+				<div class="block">
+					<label><strong>Event:</strong></label>
+					<input name="event" id="event" type="text" pattern="[a-zA-Z0-9 ]+" title="Event must contain alphanumeric characters"required>
+				</div>
+				<div class="block">
+					<label><strong>Day Of Week:</strong></label>
+					<select name="day" id="day" required>
+						<option value="">--select--</option>
+						<option value="Sunday">Sunday</option>
+						<option value="Monday">Monday</option>
+						<option value="Tuesday">Tuesday</option>
+						<option value="Wednesday">Wednesday</option>
+						<option value="Thursday">Thursday</option>
+						<option value="Friday">Friday</option>
+						<option value="Saturday">Saturday</option>
+					</select>
+				</div>
+				<div class="block">
+					<label><strong>Start:</strong></label>
+					<input name="start" id="start" type="time" required>
+				</div>
+				<div class="block">
+					<label><strong>Stop:</strong></label>
+					<input name="end" id="end" type="time" required>
+				</div>
+				<div class="block">
+					<label><strong>Phone Number:</strong></label>
+					<input type="tel" name="phone" id="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" title="Phone Number must be in form xxx-xxx-xxxx"required>
+				</div>
+				<div class="block">
+					<label><strong>Location:</strong></label>
+					<input name="location" id="location" type="text" pattern="[a-zA-Z0-9 ]+" title="Location must contain alphanumeric characters" required>
+				</div>
+				<div class="block">
+					<label><strong>Extra Info:</strong></label>
+					<input name="info" id="info" type="text" pattern="[a-zA-Z0-9 ]+" title="Extra Info must contain alphanumeric characters" required>
+				</div>
+				<div class="block">
+					<label><strong>URL:</strong></label>
+					<input name="url" id="url" type="url" pattern="https://.*" title="URL must be of form https://abc123.com" required>
+				</div>
+			</p>
+			<p>
+				<input type="submit" value="Submit">
+				<input type="reset" value="Clear">
+			</p>
+		</form>
+	</body>
+</html>

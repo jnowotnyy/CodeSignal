@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>My Weekly Schedule</title>
+		<link rel="stylesheet" href="style.css">
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body style="background-color:#121212">
+		<script>
+			/* Authors :  Dan 
+				Fall 18 */
+				
+			var marker2;
+			var infowindow2;
+
+			let addrFields = document.getElementsByClassName("address");
+			let Rows = document.getElementsByClassName("weekday");
+			
+			var context = new Array();
+			for(var Row of Rows){
+				let event = Row.getElementsByTagName("td");
+				var contentString = '<div id="content">' +
+							'<div id="bodyContent">' +
+							event[1].innerHTML+
+							'</div>' +
+							'</div>';
+				context.push(contentString);
+			}
+
+			function initMap() {
+				var myLatLng = { lat: 44.9727, lng: -93.23540000000003 };
+				/* Create a map and place it on the div */
+				var map = new google.maps.Map(document.getElementById('map'), {
+						zoom: 14,
+						center: myLatLng
+					});
+				var geocoder = new google.maps.Geocoder(); // Create a geocoder object
+				var count = 0;
+				for(var address of addrFields){
+					var location = address.textContent;
+					geocodeAddress(geocoder, map, location, count);
+					count++;
+				}
+				//var location = "Keller Hall, MN"; // This is the location we will search for using the geocoder
+				/* For your Homework assignment 3, you will have to create the code to return the value of 
+				the address entered in an input text box when the submit button is clicked
+				*/
+				//geocodeAddress(geocoder, map, location);  
+			}  // end init map function definiton
+
+			// This function takes a geocode object, a map object, and an address, and 
+			// if successful in finding the address, it places a marker with a callback that shows an 
+			// info window when the marker is "clicked"
+			function geocodeAddress(geocoder, resultsMap, address,num) {
+		
+				geocoder.geocode({'address': address}, function(results, status) {
+					if (status === google.maps.GeocoderStatus.OK) {
+							resultsMap.setCenter(results[0].geometry.location);
+							marker2 = new google.maps.Marker({
+										map: resultsMap,
+										position: results[0].geometry.location,
+										title:address
+										});
+							infowindow2 = new google.maps.InfoWindow({
+										content: context[num]
+										});
+			
+							google.maps.event.addListener(marker2, 'click', createWindow(resultsMap,infowindow2, marker2));
+					} else {
+							alert('Geocode was not successful for the following reason: ' + status);
+					} //end if-then-else
+				}); // end call to geocoder.geocode function
+			} // end geocodeAddress function
+			
+			// Function to return an anonymous function that will be called when the rmarker created in the 
+			// geocodeAddress function is clicked	
+			function createWindow(rmap, rinfowindow, rmarker){
+					return function(){
+						rinfowindow.open(rmap, rmarker);
+					}
+			}//end create (info) window
+		</script>
+		<header>
+			<div>
+				<button>
+					<a href="My%20Weekly%20Schedule.html" target="_self"><strong>My Schedule</strong></a>
+				</button>
+				<button>
+					<a href="MyForm.html" target="_self"><strong>Form Input</strong></a>
+				</button>
+				<button>
+					<a href="My%20Widgets.html" target="_self"><strong>My Widgets</strong></a>
+				</button>
+			</div>
+		</header>
+		<div>
+			<h1>My Schedule</h1>
+			<div class="container">
+				<table>
+					<thead>
+						<tr>
+							<th>Day</th>
+							<th>Event</th>
+							<th>Time</th>
+							<th>Event Location (Virtual or Physical)</th>
+							<th>Phone Number</th>
+							<th>URL</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!--Monday-->
+						<tr class="weekday" onmouseover="showBigPic('lab.jpg', 'UPS')">
+							<th rowspan="3">Monday</th>
+							<td>Work (UPS Co-op)</td>
+							<td>6:30am-9:30am</td>
+							<td class="address">
+								300 Washington Street SE, Minneapolis, Minnesota<br>
+								<img src="lab.jpg" alt="UPS">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="http://www.ups.com">UPS</a></td>
+						</tr>
+						<tr class="weekday" onmouseover="showBigPic('keller.jpg', 'Internet Programming')">
+							<td>CSCI 4131 Lecture</td>
+							<td>9:45am-11:00am</td>
+							<td class="address">
+								269 19th Ave S, Minneapolis, MN 55455<br>
+								<img src="keller.jpg" alt="Internet Programming">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="http://classinfo.umn.edu/?term=1213&institution=UMNTC&subject=CSCI&catalog_nbr=4131">CSCI 4131</a></td>
+						</tr>
+						<tr class="weekday" onmouseover="showBigPic('lab.jpg', 'UPS')">
+							<td>Work (UPS Co-op)</td>
+							<td>11:30am-12:30pm</td>
+							<td class="address">
+								300 Washington Street SE, Minneapolis, Minnesota<br>
+								<img src="lab.jpg" alt="UPS" id="small">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="http://www.ups.com">UPS</a></td>
+						</tr>
+						
+						
+						<!--Tuesday-->
+						<tr class="weekday" onmouseover="showBigPic('lab.jpg', 'UPS')">
+							<th rowspan="4">Tuesday</th>
+							<td>Work (UPS Co-op)</td>
+							<td>6:30am-9:30am</td>
+							<td class="address">
+								300 Washington Street SE, Minneapolis, Minnesota<br>
+								<img src="lab.jpg" alt="UPS" id="small">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="http://www.ups.com">UPS</a></td>
+						</tr>
+						<tr class="weekday" onmouseover="showBigPic('rec.jpg', 'Rec Center')">
+							<td>Work (Building Manager)</td>
+							<td>10:00am-2:00pm</td>
+							<td class="address">
+								123 SE Harvard St, Minneapolis, MN 55455<br>
+								<img src="rec.jpg" alt="Rec Center">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="https://recwell.umn.edu">Recwell</a></td>
+						</tr>
+						<tr class="weekday" onmouseover="showBigPic('coffman.jpg', 'Senior Design')">
+							<td>Senior Design Lecture</td>
+							<td>2:30pm-3:45pm</td>
+							<td class="address">
+								222 Pleasant St SE, Minneapolis, MN 55455<br>
+								<img src="coffman.jpg" alt="Senior Design">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="http://classinfo.umn.edu/?term=1213&institution=UMNTC&subject=CSCI&catalog_nbr=4131">CSCI 4131</a></td>
+						</tr>
+						<tr class="weekday" onmouseover="showBigPic('lab.jpg', 'UPS')">
+							<td>Work (UPS Co-op)</td>
+							<td>4:00pm-5:00pm</td>
+							<td class="address">
+								300 Washington Street SE, Minneapolis, Minnesota<br>
+								<img src="lab.jpg" alt="UPS" id="small">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="http://www.ups.com">UPS</a></td>
+						</tr>
+						
+						
+						<!--Wednesday-->
+						<tr class="weekday" onmouseover="showBigPic('lab.jpg', 'UPS')">
+							<th rowspan="4">Wednesday</th>
+							<td>Work (UPS Co-op)</td>
+							<td>6:30am-9:30am</td>
+							<td class="address">
+								300 Washington Street SE, Minneapolis, Minnesota<br>
+								<img src="lab.jpg" alt="UPS" id="small">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="http://www.ups.com">UPS</a></td>
+						</tr>
+						<tr class="weekday" onmouseover="showBigPic('keller.jpg', 'Internet Programming')">
+							<td>CSCI 4131 Lecture</td>
+							<td>9:45am-11:00am</td>
+							<td class="address">
+								269 19th Ave S, Minneapolis, MN 55455<br>
+								<img src="keller.jpg" alt="Internet Programming">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="http://classinfo.umn.edu/?term=1213&institution=UMNTC&subject=CSCI&catalog_nbr=4131">CSCI 4131</a></td>
+						</tr>
+						<tr class="weekday" onmouseover="showBigPic('lab.jpg', 'UPS')">
+							<td>Work (UPS Co-op)</td>
+							<td>11:30am-12:30pm</td>
+							<td class="address">
+								300 Washington Street SE, Minneapolis, Minnesota<br>
+								<img src="lab.jpg" alt="UPS">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="http://www.ups.com">UPS</a></td>
+						</tr>
+						<tr class="weekday" onmouseover="showBigPic('rec.jpg', 'Rec Center')">
+							<td>Work (Equipment Room)</td>
+							<td>1:50pm-5:00pm</td>
+							<td class="address">
+								1901 University Ave, Minneapolis, MN 55455<br>
+								<img src="rec.jpg" alt="Rec Center">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="https://recwell.umn.edu">Recwell</a></td>
+						</tr>
+						
+						
+						<!--Thursday-->
+						<tr class="weekday" onmouseover="showBigPic('lab.jpg', 'UPS')">
+							<th rowspan="3">Thursday</th>
+							<td>Work (UPS Co-op)</td>
+							<td>7:00am-11:00am</td>
+							<td class="address">
+								300 Washington Street SE, Minneapolis, Minnesota<br>
+								<img src="lab.jpg" alt="UPS" id="small">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="http://www.ups.com">UPS</a></td>
+						</tr>
+						<tr class="weekday" onmouseover="showBigPic('rec.jpg', 'Rec Center')">
+							<td>Work (Building Manager)</td>
+							<td>12:00pm-2:00pm</td>
+							<td class="address">
+								123 SE Harvard St, Minneapolis, MN 55455<br>
+								<img src="rec.jpg" alt="Rec Center">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="https://recwell.umn.edu">Recwell</a></td>
+						</tr>
+						<tr class="weekday" onmouseover="showBigPic('coffman.jpg', 'Senior Design')">
+							<td>Senior Design Lecture</td>
+							<td>2:30pm-3:45pm</td>
+							<td class="address">
+								222 Pleasant St SE, Minneapolis, MN 55455<br>
+								<img src="coffman.jpg" alt="Senior Design">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="http://classinfo.umn.edu/?term=1213&institution=UMNTC&subject=CSCI&catalog_nbr=4131">CSCI 4131</a></td>
+						</tr>
+						
+						
+						<!--Friday-->
+						<tr class="weekday" onmouseover="showBigPic('lab.jpg', 'UPS')">
+							<th rowspan="3">Friday</th>
+							<td>Work (UPS Co-op)</td>
+							<td>7:00am-11:00am</td>
+							<td class="address">
+								300 Washington Street SE, Minneapolis, Minnesota<br>
+								<img src="lab.jpg" alt="UPS" id="small">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="http://www.ups.com">UPS</a></td>
+						</tr>
+						<tr class="weekday" onmouseover="showBigPic('rec.jpg', 'Rec Center')">
+							<td>Work (Building Manager)</td>
+							<td>12:00pm-2:00pm</td>
+							<td class="address">
+								123 SE Harvard St, Minneapolis, MN<br>
+								<img src="rec.jpg" alt="Rec Center">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="https://recwell.umn.edu">Recwell</a></td>
+						</tr>
+						<tr class="weekday" onmouseover="showBigPic('rec.jpg', 'Rec Center')">
+							<td>Work (Equipment Room)</td>
+							<td>1:50pm-5:00pm</td>
+							<td class="address">
+								1901 University Ave, Minneapolis, MN 55455<br>
+								<img src="rec.jpg" alt="Rec Center">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="https://recwell.umn.edu">Recwell</a></td>
+						</tr>
+						
+						
+						<!--Saturday-->
+						<tr class="weekday" onmouseover="showBigPic('rec.jpg', 'Rec Center')">
+							<th rowspan="2">Saturday</th>
+							<td>Work (Building Manager)</td>
+							<td>07:30am-11:00am</td>
+							<td class="address">
+								123 SE Harvard St, Minneapolis, MN 55455<br>
+								<img src="rec.jpg" alt="Rec Center">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="https://recwell.umn.edu">Recwell</a></td>
+						</tr>
+						<tr class="weekday" onmouseover="showBigPic('freetime.jpg', 'free time')">
+							<td>Basketball</td>
+							<td>12:00pm-3:00pm</td>
+							<td class="address">
+								1901 University Ave, Minneapolis, MN 55455<br>
+								<img src="freetime.jpg" alt="free time">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="https://recwell.umn.edu">Recwell</a></td>
+						</tr>
+						
+						
+						<!--Sunday-->
+						<tr class="weekday" onmouseover="showBigPic('freetime.jpg', 'Rec Center')">
+							<th>Sunday</th>
+							<td>Basketball</td>
+							<td>12:00pm-3:00pm</td>
+							<td class="address">
+								1901 University Ave, Minneapolis, MN 55455<br>
+								<img src="freetime.jpg" alt="free time">
+							</td>
+							<td>Not Applicable</td>
+							<td><a style="color:white" href="https://recwell.umn.edu">Recwell</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div>
+				<img src="gophers-mascot.png" alt="Goldy" id="big">
+			</div>
+		</div>
+		
+		<div id="map"></div>
+		<script async
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCgy1519XjqxALCByzAifRqQmDPeNivJA&libraries=places&callback=initMap">
+        </script>
+	</body>
+</html>
